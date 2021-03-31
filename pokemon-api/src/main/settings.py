@@ -1,5 +1,10 @@
 import os
 
+DEFAULT_HOST = os.environ.get("DEFAULT_HOST", "localhost")
+DEFAULT_HOST_PORT = os.environ.get("DEFAULT_HOST_PORT", 8000)
+FRONTEND_HOST = os.environ.get("FRONTEND_HOST", "localhost")
+FRONTEND_HOST_PORT = os.environ.get("FRONTEND_HOST_PORT", 4000)
+
 DB_NAME = os.environ.get("DB_NAME", "pokemon")
 DB_USER = os.environ.get("DB_USER", "postgres")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "postgres")

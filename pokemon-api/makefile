@@ -47,6 +47,10 @@ run-api:
 shell-api:
 	@docker exec -it $(ID-API) bash
 
+# attach monitor to redis
+redis-monitor:
+	@docker exec -it $(ID-REDIS) redis-cli monitor
+
 # Stop docker containers
 stop-all: stop-api stop-postgres stop-redis
 stop-api:

@@ -10,6 +10,9 @@ fastapi = "^0.63.0"
 uvicorn = "^0.13.4"
 SQLAlchemy = "^1.4.3"
 psycopg2-binary = "^2.8.6"
+aiocache = {extras = ["redis"], version = "^0.11.1"}
+fastapi-plugins = "^0.8.1"
+ujson = "^4.0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"

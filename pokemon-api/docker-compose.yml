@@ -42,6 +42,8 @@ services:
       application: 'pokemon-redis'
     ports:
       - '6379:6379'
+    expose:
+      - '6379'
 
 volumes:
   pokemon-db-data:
