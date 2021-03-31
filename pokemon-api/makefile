@@ -4,6 +4,13 @@ INFO_COLOUR=\033[33m
 ERROR_COLOUR=\033[31;01m
 WARN_COLOUR=\033[33;01m
 
+
+# Containers ids
+ID-API=$(shell docker ps -a -q -f "name=pokemon-api")
+ID-POSTGRES=$(shell docker ps -a -q -f "name=pokemon-postgres")
+ID-REDIS=$(shell docker ps -a -q -f "name=pokemon-redis")
+
+
 black:  # run the black formatter
 	@docker exec -t pokemon-api black $(ARGS) ./ --exclude /migrations/
 
@@ -13,7 +20,7 @@ isort: # run isort
 format: black isort
 
 
-# Bind build commands to proper mode
+# Build all containers
 build-all: build-api build-postgres build-redis
 
 build-api:
@@ -32,13 +39,13 @@ run-all:
 run-services:
 	@docker-compose -f docker-compose.yml up pokemon-postgres pokemon-redis
 
+# run fastapi server
 run-api:
 	@docker-compose -f docker-compose.yml up pokemon-api
 
-# Containers and images ids
-ID-API=$(shell docker ps -a -q -f "name=pokemon-api")
-ID-POSTGRES=$(shell docker ps -a -q -f "name=pokemon-postgres")
-ID-REDIS=$(shell docker ps -a -q -f "name=pokemon-redis")
+# attach shell to runing server container
+shell-api:
+	@docker exec -it $(ID-API) bash
 
 # Stop docker containers
 stop-all: stop-api stop-postgres stop-redis
@@ -70,3 +77,7 @@ clean-all: clean-api clean-postgres clean-redis
 clean-api: stop-api rm-api
 clean-postgres: stop-postgres rm-postgres
 clean-redis: stop-redis rm-redis
+
+# populate db with pokemon data
+populate-db:
+	@docker exec $(ID-API) poetry run python src/utils/create_pokemon_db.py

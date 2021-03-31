@@ -8,6 +8,8 @@ authors = ["Verline <szymon.idziniak@gmail.com>"]
 python = "^3.8"
 fastapi = "^0.63.0"
 uvicorn = "^0.13.4"
+SQLAlchemy = "^1.4.3"
+psycopg2-binary = "^2.8.6"
 
 [tool.poetry.dev-dependencies]
 black = "^20.8b1"
@@ -15,6 +17,7 @@ isort = "^5.8.0"
 pytest = "^6.2.2"
 bandit = "^1.7.0"
 pylint = "^2.7.2"
+pandas = "^1.2.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
