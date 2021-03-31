@@ -1,8 +1,9 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 
 from src.consts.api_consts import API_LIMIT, API_SKIP
 from src.pokemon import models, schema
-from typing import List
 
 
 def get_all_pokemons(

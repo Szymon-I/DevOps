@@ -17,7 +17,10 @@ black:  # run the black formatter
 isort: # run isort
 	@docker exec -t pokemon-api isort $(ARGS) ./
 
-format: black isort
+autoflake:
+	@docker exec -t pokemon-api autoflake -r --in-place --remove-all-unused-imports --remove-unused-variables src/*
+
+format: isort autoflake black 
 
 
 # Build all containers

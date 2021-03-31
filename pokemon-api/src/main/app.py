@@ -1,6 +1,8 @@
-from typing import List, Dict
-import pickle
-from fastapi import Depends, FastAPI, Request, Response, HTTPException
+from typing import List
+
+import fastapi_plugins
+from aioredis import Redis
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from sqlalchemy.orm import Session
 
 import src.pokemon.models as pokemon_models
@@ -8,16 +10,9 @@ from src.consts.api_consts import API_LIMIT, API_SKIP
 from src.database import SessionLocal, engine
 from src.pokemon import crud
 from src.pokemon.schema import Pokemon as PokemonSchema
-from src.utils.create_pokemon_db import dump_csv_to_db
-from src.utils.main_utils import get_db, AppSettings
 from src.utils.cache import get_cached_or_db
-from aiocache import cached, Cache
-from aiocache.serializers import PickleSerializer
-from src.main.settings import DEFAULT_HOST, REDIS_PORT
-import fastapi_plugins
-from aioredis import Redis
-from aiocache import caches
-
+from src.utils.create_pokemon_db import dump_csv_to_db
+from src.utils.main_utils import AppSettings, get_db
 
 # Apply migrations to db and populate it
 pokemon_models.Base.metadata.create_all(bind=engine)

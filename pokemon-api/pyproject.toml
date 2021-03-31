@@ -21,6 +21,7 @@ pytest = "^6.2.2"
 bandit = "^1.7.0"
 pylint = "^2.7.2"
 pandas = "^1.2.3"
+autoflake = "^1.4"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

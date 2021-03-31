@@ -1,7 +1,7 @@
-from typing import Dict
-from aioredis import Redis
 import pickle
 from typing import Any, Callable
+
+from aioredis import Redis
 
 
 async def get_cached_or_db(
