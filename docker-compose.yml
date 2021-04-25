@@ -1,0 +1,71 @@
+version: "3"
+
+services:
+  pokemon-api:
+    build:
+      context: ./pokemon-api
+      dockerfile: Dockerfile
+    container_name: "pokemon-api"
+    labels:
+      application: "pokemon-api"
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./pokemon-api/env/base.env
+    volumes:
+      - ./pokemon-api:/app
+    stdin_open: true
+    tty: true
+    depends_on:
+      - pokemon-postgres
+      - pokemon-redis
+    command: bash ./scripts/docker-entrypoint.sh
+
+  pokemon-postgres:
+    image: postgres:latest
+    container_name: "pokemon-postgres"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "pokemon"
+    labels:
+      application: "pokemon-postgres"
+    volumes:
+      - pokemon-db-data:/var/lib/postgresql
+    ports:
+      - "5432:5432"
+
+  pokemon-redis:
+    image: redis:latest
+    container_name: "pokemon-redis"
+    labels:
+      application: "pokemon-redis"
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+
+  pokemon-client:
+    build:
+      context: ./pokemon-client
+      dockerfile: Dockerfile
+    volumes:
+      - /opt/app/node_modules
+      - ./pokemon-client:/opt/app
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    command: yarn start
+
+  mynginx:
+    restart: always
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "9090:80"
+
+volumes:
+  pokemon-db-data:
+    driver: local
