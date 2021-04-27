@@ -1,0 +1,57 @@
+type Pokemon = {
+    id: int
+    pokedex_number: int
+    name: str
+    german_name?: str
+    japanese_name?: str
+    generation?: int
+    is_sub_legendary?: bool
+    is_legendary?: bool
+    is_mythical?: bool
+    species?: str
+    type_number?: int
+    type_1?: str
+    type_2?: str
+    height_m?: float
+    weight_kg?: float
+    abilities_number?: int
+    ability_1?: str
+    ability_2?: str
+    ability_hidden?: str
+    total_points?: int
+    hp?: int
+    attack?: int
+    defense?: int
+    sp_attack?: int
+    sp_defense?: int
+    speed?: int
+    catch_rate?: int
+    base_friendship?: int
+    base_experience?: int
+    growth_rate?: str
+    egg_type_number?: int
+    egg_type_1?: str
+    egg_type_2?: str
+    percentage_male?: float
+    egg_cycles?: float
+    against_normal?: float
+    against_fire?: float
+    against_water?: float
+    against_electric?: float
+    against_grass?: float
+    against_ice?: float
+    against_fight?: float
+    against_poison?: float
+    against_ground?: float
+    against_flying?: float
+    against_psychic?: float
+    against_bug?: float
+    against_rock?: float
+    against_ghost?: float
+    against_dragon?: float
+    against_dark?: float
+    against_steel?: float
+    against_fairy?: float
+}
+
+export type { Pokemon }
