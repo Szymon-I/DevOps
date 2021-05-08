@@ -13,6 +13,10 @@ import {
 } from "react-router-dom";
 
 const App = () => {
+  useEffect(() => {
+    document.title = "Pokemon App";
+  })
+
   return (
     <Router>
       <div>
@@ -20,9 +24,6 @@ const App = () => {
           <ul>
             <li>
               <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/detailView/1">DetailView 1</Link>
             </li>
           </ul>
         </nav>

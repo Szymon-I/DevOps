@@ -1,10 +1,14 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { API_URL_ALL_POKEMONS } from "../constants.tsx";
 import { useParams } from "react-router-dom";
+import { getPokemonDict } from "../utils.ts";
+
 const PokemonDetailView = () => {
   const { id } = useParams();
   const [pokemon, setPokemon] = useState<Pokemon>(null);
-  /** Fetch first batch of pokemons into app state on component load */
+  const [newPokemon, setNewPokemon] = useState<Pokemon>(null);
+
+  /** Fetch pokemon details into app state on component load */
   const initPopulate = (): undefined => {
     fetch(API_URL_ALL_POKEMONS + id)
       .then(
@@ -17,18 +21,36 @@ const PokemonDetailView = () => {
   };
 
   /** Run functions on component load */
-  useEffect(() => {
+  useEffect((): undefined => {
     if (!pokemon) {
       initPopulate();
     }
   });
 
   /** Render pokemon */
-  const renderPokemon = () => {
-    return !!pokemon ? <div>{pokemon.name}</div> : <Fragment />;
+  const renderPokemon = (): React.StatelessComponent<{}> => {
+    return !!pokemon && !("detail" in pokemon) ? (
+      <table>
+        <tbody>
+          <th>property</th>
+          <th>value</th>
+          <th>new value</th>
+          {Object.keys(pokemon).map((property, id) => (
+            <tr key={id}>
+              <td>{property}</td>
+              <td>{pokemon[property]}</td>
+              <td></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    ) : (
+      // <div>{pokemon.name}</div>
+      <div>Not found</div>
+    );
   };
 
-  return <h2>{renderPokemon()}</h2>;
+  return <Fragment>{renderPokemon()}</Fragment>;
 };
 
 export { PokemonDetailView };

@@ -65,6 +65,9 @@ services:
       dockerfile: Dockerfile
     ports:
       - "9090:80"
+    depends_on:
+      - pokemon-api
+      - pokemon-client
 
 volumes:
   pokemon-db-data:

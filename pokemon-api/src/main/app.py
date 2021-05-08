@@ -3,6 +3,7 @@ from typing import List
 import fastapi_plugins
 from aioredis import Redis
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 
 import src.pokemon.models as pokemon_models
@@ -11,12 +12,11 @@ from src.database import SessionLocal, engine
 from src.pokemon import crud
 from src.pokemon.schema import Pokemon as PokemonSchema
 from src.utils.cache import get_cached_or_db
-from src.utils.create_pokemon_db import dump_csv_to_db
 from src.utils.main_utils import AppSettings, get_db
 
 # Apply migrations to db and populate it
 pokemon_models.Base.metadata.create_all(bind=engine)
-dump_csv_to_db()
+# dump_csv_to_db()
 
 # init config and app
 config = AppSettings()
@@ -76,3 +76,15 @@ async def get_pokemon(
     if not pokemon:
         raise HTTPException(status_code=404, detail="Pokemon not found")
     return pokemon
+
+
+@app.delete("/pokemon/{pokemon_id}")
+async def delete_pokemon(
+    pokemon_id: int,
+    db: Session = Depends(get_db),
+    cache: Redis = Depends(fastapi_plugins.depends_redis),
+):
+    deleted = await crud.delete_pokemon(db=db, pokemon_id=pokemon_id, cache=cache)
+    if deleted:
+        return JSONResponse(status_code=200)
+    return JSONResponse(status_code=404)
