@@ -21,10 +21,8 @@ const PokemonListView = () => {
 
   /** Run functions on component load */
   useEffect(() => {
-    if (!pokemons || !pokemons.length) {
-      initPopulate();
-    }
-  });
+    initPopulate();
+  }, []);
 
   /** Delete pokemon from db */
   const deletePokemon = (primary_key: number, array_id: number) => {

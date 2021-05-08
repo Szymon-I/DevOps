@@ -12,11 +12,12 @@ from src.database import SessionLocal, engine
 from src.pokemon import crud
 from src.pokemon.schema import Pokemon as PokemonSchema
 from src.utils.cache import get_cached_or_db
+from src.utils.create_pokemon_db import dump_csv_to_db
 from src.utils.main_utils import AppSettings, get_db
 
 # Apply migrations to db and populate it
 pokemon_models.Base.metadata.create_all(bind=engine)
-# dump_csv_to_db()
+dump_csv_to_db()
 
 # init config and app
 config = AppSettings()
