@@ -1,14 +1,16 @@
 from typing import List
 
 import fastapi_plugins
+import uvicorn
 from aioredis import Redis
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import JSONResponse
-from sqlalchemy.orm import Session
 
 import src.pokemon.models as pokemon_models
+from sqlalchemy.orm import Session
 from src.consts.api_consts import API_LIMIT, API_SKIP
 from src.database import SessionLocal, engine
+from src.main.settings import DEFAULT_HOST, DEFAULT_HOST_PORT
 from src.pokemon import crud
 from src.pokemon.schema import Pokemon as PokemonSchema
 from src.utils.cache import get_cached_or_db
@@ -79,6 +81,19 @@ async def get_pokemon(
     return pokemon
 
 
+@app.put("/pokemon/{pokemon_id}")
+async def update_pokemon(
+    pokemon_data: PokemonSchema,
+    pokemon_id: int,
+    db: Session = Depends(get_db),
+):
+    print(pokemon_data)
+    crud.update_pokemon(db=db, pokemon_id=pokemon_id, data=pokemon_data)
+    if True:
+        return JSONResponse(status_code=200)
+    return JSONResponse(status_code=404)
+
+
 @app.delete("/pokemon/{pokemon_id}")
 async def delete_pokemon(
     pokemon_id: int,
@@ -89,3 +104,12 @@ async def delete_pokemon(
     if deleted:
         return JSONResponse(status_code=200)
     return JSONResponse(status_code=404)
+
+
+@app.get("/ping")
+async def pong():
+    return "pong"
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host=DEFAULT_HOST, port=DEFAULT_HOST_PORT)

@@ -48,4 +48,3 @@ services:
 volumes:
   pokemon-db-data:
     driver: local
-

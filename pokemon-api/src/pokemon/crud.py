@@ -1,8 +1,8 @@
 from typing import List
 
 from aioredis import Redis
-from sqlalchemy.orm import Session
 
+from sqlalchemy.orm import Session
 from src.consts.api_consts import API_LIMIT, API_SKIP
 from src.pokemon import schema
 from src.pokemon.models import Pokemon
@@ -20,6 +20,14 @@ def get_pokemon(db: Session, pokemon_id: int) -> schema.Pokemon:
     """ Return pokemon based on primary key """
 
     return db.query(Pokemon).get(pokemon_id)
+
+
+def update_pokemon(db: Session, pokemon_id: int, data: Pokemon) -> None:
+
+    pokemon = db.query(Pokemon).filter(Pokemon.id == pokemon_id)
+
+    for key, value in pokemon.iteritems():
+        setattr(Pokemon, key, value)
 
 
 async def delete_pokemon(db: Session, pokemon_id: int, cache: Redis) -> None:

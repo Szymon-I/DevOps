@@ -4,9 +4,9 @@ from pydantic import BaseModel
 
 
 class Pokemon(BaseModel):
-    id: int
-    pokedex_number: int
-    name: str
+    id: Optional[int]
+    pokedex_number: Optional[int]
+    name: Optional[str]
     german_name: Optional[str]
     japanese_name: Optional[str]
     generation: Optional[int]

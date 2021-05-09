@@ -25,3 +25,5 @@ yarn-error.log*
 __pycache__
 .vscode
 .ipnyb_checkpoints
+
+.idea/

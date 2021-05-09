@@ -13,4 +13,6 @@ DB_PORT = os.environ.get("DB_PORT", 5432)
 
 REDIS_HOST = os.environ.get("REDIS_HOST", "pokemon-redis")
 REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
-CACHE_LOCATION = os.environ.get("CACHE_LOCATION", "redis://pokemon-redis:6379/1")
+CACHE_LOCATION = os.environ.get(
+    "CACHE_LOCATION", f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
+)
