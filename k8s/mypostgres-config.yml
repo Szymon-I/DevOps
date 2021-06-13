@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mypostgres-config
+
+data:
+  PGDATABASE: myappdb
+  PGUSER: myappuser
+  PGHOST: mypostgres-clusterip
+  PGPORT: "5432"
