@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: pokemon-client-deployment
+  labels:
+    app: pokemon-client
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pokemon-client
+  template:
+    metadata:
+      labels:
+        app: pokemon-client
+
+    spec:
+      containers:
+        - name: pokemon-client
+          image: verline/pokemon-client
+          stdin: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokemon-client-service
+spec:
+  selector:
+    app: pokemon-client
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30000

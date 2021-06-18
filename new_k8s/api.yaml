@@ -5,7 +5,7 @@ metadata:
   labels:
     app: pokemon-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: pokemon-api
@@ -21,62 +21,81 @@ spec:
           - containerPort: 8000
           env:
             - name: PYTHONUNBUFFERED
-              value: 1
+              value: "1"
 
-            - name: DEFAULT_HOST
-              value: localhost
+            # - name: DEFAULT_HOST
+            #   value: localhost
 
-            - name: DEFAULT_HOST_PORT
-              value: 8000
+            # - name: DEFAULT_HOST_PORT
+            #   value: "8000"
 
-            - name: FRONTEND_HOST
-              value: localhost
+            # - name: FRONTEND_HOST
+            #   value: localhost
 
-            - name: FRONTEND_HOST_PORT
-              value: 4000
+            # - name: FRONTEND_HOST_PORT
+            #   value: "4000"
 
+            # - name: DB_NAME
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: pokemon-configmap
+            #       key: DB_NAME
+            
+            # - name: DB_HOST
+            #   valueFrom:
+            #     configMapKeyRef:
+            #       name: configmap
+            #       key: DB_HOST
+            
             - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: configmap
-                  key: DB_NAME
+              value: pokemon
             
             - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: configmap
-                  key: DB_HOST
-            
+              value: db-service
+
+              
+
             - name: DB_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: configmap
+                  name: pokemon-configmap
                   key: DB_PORT
 
             - name: REDIS_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: configmap
+                  name: pokemon-configmap
                   key: REDIS_HOST
 
             - name: REDIS_PORT
               valueFrom:
                 configMapKeyRef:
-                  name: configmap
+                  name: pokemon-configmap
                   key: REDIS_PORT
 
             - name: DB_USER
               valueFrom:
-                configMapKeyRef:
-                  name: secret
+                secretKeyRef:
+                  name: pokemon-secret
                   key: DB_USER
 
             - name: DB_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: secret
+                secretKeyRef:
+                  name: pokemon-secret
                   key: DB_PASSWORD
 ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: pokemon-api-service
+# spec:
+#   selector:
+#     app: pokemon-api
+#   ports:
+#     - port: 8000
+#       targetPort: 8000
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -89,5 +108,5 @@ spec:
     - protocol: TCP
       port: 8000
       targetPort: 8000
-      nodePort: 30000
+      nodePort: 30001
 

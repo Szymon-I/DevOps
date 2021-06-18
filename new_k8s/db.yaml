@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-
 metadata:
   name: db-deployment
   labels:
@@ -26,25 +25,31 @@ spec:
           env:
             - name: POSTGRES_USER
               valueFrom:
-                configMapKeyRef:
-                  name: secret
+                secretKeyRef:
+                  name: pokemon-secret
                   key: DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
-                  name: secret
+                secretKeyRef:
+                  name: pokemon-secret
                   key: DB_PASSWORD
             
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
-                  name: configmap
+                  name: pokemon-configmap
                   key: DB_NAME
-    
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgredb
+      volumes:
+        - name: postgredb
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
       # volumes:
       #   - name: postgresvolume
-      #     persistentVolumeClaim:
+      #     PersistentVolume:
       #       claimName: volume
 ---
 apiVersion: v1

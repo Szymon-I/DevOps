@@ -20,7 +20,7 @@ services:
     depends_on:
       - pokemon-postgres
       - pokemon-redis
-    command: bash ./scripts/docker-entrypoint.sh
+    # command: bash ./scripts/docker-entrypoint.sh
 
   pokemon-postgres:
     image: postgres:latest
