@@ -18,7 +18,7 @@ spec:
               name: pokemon-client-service
               port:
                 number: 80
-        - path: /api
+        - path: /api/
           pathType: Prefix
           backend:
             service:

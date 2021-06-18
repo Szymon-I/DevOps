@@ -1,2 +1,3 @@
 API_SKIP = 0
 API_LIMIT = 100
+API_PREFIX="/api"

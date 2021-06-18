@@ -21,6 +21,7 @@ const PokemonListView = () => {
 
   /** Run functions on component load */
   useEffect(() => {
+    console.log("POKEMONS");
     initPopulate();
   }, []);
 

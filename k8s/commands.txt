@@ -8,3 +8,6 @@ kubectl get pod -o wide - get detailed info about pods (e.g. ip address)
 kubectl apply -f <filename> - execute k8s configuration from file (can also update)
 kubectl get pod -n kube-system - get minikube related pods
 kubectl get ns - get namespaces
+kubectl rollout restart deployment <deployment name> - restart deployment
+kubectl logs --follow <pod name> attach log console (infinitive)
+kubectl get pods --show-labels - get pods with labels

@@ -8,7 +8,7 @@ from fastapi.responses import JSONResponse
 
 import src.pokemon.models as pokemon_models
 from sqlalchemy.orm import Session
-from src.consts.api_consts import API_LIMIT, API_SKIP
+from src.consts.api_consts import API_LIMIT, API_SKIP, API_PREFIX
 from src.database import SessionLocal, engine
 from src.main.settings import DEFAULT_HOST, DEFAULT_HOST_PORT
 from src.pokemon import crud
@@ -23,7 +23,7 @@ dump_csv_to_db()
 
 # init config and app
 config = AppSettings()
-app = FastAPI()
+app = FastAPI(root_path="/api")
 
 
 @app.middleware("http")

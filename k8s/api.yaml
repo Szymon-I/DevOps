@@ -35,23 +35,23 @@ spec:
             # - name: FRONTEND_HOST_PORT
             #   value: "4000"
 
-            # - name: DB_NAME
-            #   valueFrom:
-            #     configMapKeyRef:
-            #       name: pokemon-configmap
-            #       key: DB_NAME
-            
-            # - name: DB_HOST
-            #   valueFrom:
-            #     configMapKeyRef:
-            #       name: configmap
-            #       key: DB_HOST
-            
             - name: DB_NAME
-              value: pokemon
+              valueFrom:
+                configMapKeyRef:
+                  name: pokemon-configmap
+                  key: DB_NAME
             
             - name: DB_HOST
-              value: db-service
+              valueFrom:
+                configMapKeyRef:
+                  name: pokemon-configmap
+                  key: DB_HOST
+            
+            # - name: DB_NAME
+            #   value: pokemon
+            
+            # - name: DB_HOST
+            #   value: db-service
 
               
 
