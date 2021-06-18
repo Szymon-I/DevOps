@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: db-deployment
+  labels:
+    app: pokemon-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pokemon-db
+  template:
+    metadata:
+      labels:
+        app: pokemon-db
+    spec:
+      containers:
+        - name: pokemon-db
+          image: postgres:alpine
+          # volumeMounts:
+          #   - mountPath: /var/lib/postgresql/data
+          #     name: postgresvolume
+          ports:
+          - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: secret
+                  key: DB_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: secret
+                  key: DB_PASSWORD
+            
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: DB_NAME
+    
+      # volumes:
+      #   - name: postgresvolume
+      #     persistentVolumeClaim:
+      #       claimName: volume
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+
+spec:
+  selector:
+    app: pokemon-db
+  ports:
+    - port: 5432
+      targetPort: 5432
+
+

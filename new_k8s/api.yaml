@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-api-deployment
+  labels:
+    app: pokemon-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pokemon-api
+  template:
+    metadata:
+      labels:
+        app: pokemon-api
+    spec:
+      containers:
+        - name: pokemon-api
+          image: verline/pokemon-api
+          ports:
+          - containerPort: 8000
+          env:
+            - name: PYTHONUNBUFFERED
+              value: 1
+
+            - name: DEFAULT_HOST
+              value: localhost
+
+            - name: DEFAULT_HOST_PORT
+              value: 8000
+
+            - name: FRONTEND_HOST
+              value: localhost
+
+            - name: FRONTEND_HOST_PORT
+              value: 4000
+
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: DB_NAME
+            
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: DB_HOST
+            
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: DB_PORT
+
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: REDIS_HOST
+
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: configmap
+                  key: REDIS_PORT
+
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: secret
+                  key: DB_USER
+
+            - name: DB_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: secret
+                  key: DB_PASSWORD
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pokemon-api-service
+spec:
+  selector:
+    app: pokemon-api
+  type: LoadBalancer  
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+      nodePort: 30000
+

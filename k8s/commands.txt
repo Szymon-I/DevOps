@@ -1,0 +1,7 @@
+minikube start - run minikube vm
+minikube service <service_name> - assign external ip to service (for load balancer)
+
+kubectl get all - get all components
+kubectl get pod/service/deployment - get info about k8s components
+kubectl get pod -o wide - get detailed info about pods (e.g. ip address)
+kubectl apply -f <filename> - execute k8s configuration from file (can also update)
