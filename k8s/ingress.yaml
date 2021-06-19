@@ -2,6 +2,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: pokemon-ingress
+  annotations:
+    # revrite url by catching regex "/api/" (ingress) -> "/" (api pod)
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  namespace: default
 spec:
   defaultBackend:
     service:
@@ -11,14 +15,14 @@ spec:
   rules:
     - http:
         paths:
-        - path: /
+        - path: /(/|$)(.*)
           pathType: Prefix
           backend:
             service:
               name: pokemon-client-service
               port:
                 number: 80
-        - path: /api/
+        - path: /api(/|$)(.*)
           pathType: Prefix
           backend:
             service:
