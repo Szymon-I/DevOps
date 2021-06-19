@@ -8,7 +8,7 @@ const PokemonListView = () => {
   const history = useHistory();
 
   /** Fetch first batch of pokemons into app state on component load */
-  const initPopulate = (): undefined => {
+  const populate = (): void => {
     fetch(API_URL_ALL_POKEMONS)
       .then(
         (response) => response.json(),
@@ -19,10 +19,22 @@ const PokemonListView = () => {
       });
   };
 
+  const addPokemons = (): void => {
+    const limit=100;
+    const skip=pokemons.length;
+    fetch(`${API_URL_ALL_POKEMONS}?skip=${skip}&limit=${limit}`)
+    .then(
+      (response) => response.json(),
+      (errors) => console.log(errors)
+    )
+    .then((json) => {
+      setPokemons(pokemons.concat(json));
+    });
+  }
   /** Run functions on component load */
   useEffect(() => {
     console.log("POKEMONS");
-    initPopulate();
+    populate();
   }, []);
 
   /** Delete pokemon from db */
@@ -75,7 +87,10 @@ const PokemonListView = () => {
     );
   };
 
-  return <div>{renderPokemons()}</div>;
+  return <div>
+    <button onClick={addPokemons}>Load more</button>
+    {renderPokemons()}
+    </div>;
 };
 
 export { PokemonListView };
